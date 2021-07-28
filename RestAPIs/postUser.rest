@@ -1,0 +1,22 @@
+POST http://localhost:3000/api/users
+Content-Type: application/json
+
+{
+    "name" : "Maniruz",
+    "email": "mani@abc.com",
+    "password" : "123456"
+}
+
+###
+
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{
+    "email" : "mz1@bob.com",
+    "password" : "123456"
+}
+
+###
+GET http://localhost:3000/api/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYTM3MGRjNGUtNDJhYS00MDljLWFlYjItOGQ5MTBmZDMxODY2IiwidXNlcl9uYW1lIjoiTWFoYWZ1eiIsInVzZXJfZW1haWwiOiJtejFAYm9iLmNvbSIsImlhdCI6MTYyNzM5MjUxOSwiZXhwIjoxNjI3Mzk0NTE5fQ.dN8bKUtVaBNjd2ydcqTBjS-3VkhcR5x8bHI6M7cU8qA
