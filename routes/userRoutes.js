@@ -8,11 +8,16 @@ const userRouter = express.Router();
 
 userRouter.get('/', authenticateToken, async (req, res) => {
     try {
-        const user = await pool.query('select * from users');
-        res.json({ users: user.rows });
+        //const { user_id, user_name, user_email} = req.user;
+        console.log(req.user);
+        if (req.user) {
+            const user = await pool.query('select * from users');
+            res.json({ success: true, users: user.rows });
+        }
+
     } catch (error) {
         console.log(error.message);
-        res.sendStatus(500);
+        //res.status(500).json({ success: false, message: error.message });
     }
 });
 
@@ -23,7 +28,7 @@ userRouter.post('/', async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
         const query = await pool.query('INSERT INTO users (user_name,user_email,user_password) VALUES ($1,$2,$3) RETURNING *',
             [name, email, hashedPassword]);
-        res.json(query.rows);
+        res.json({ success: true, users: query.rows });
     } catch (error) {
         console.log(error.message);
         res.sendStatus(500);

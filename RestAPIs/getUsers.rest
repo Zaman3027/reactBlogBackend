@@ -1,0 +1,22 @@
+POST http://localhost:5000/api/users
+Content-Type: application/json
+
+{
+    "name" : "Maniruz",
+    "email": "mani@abc.com",
+    "password" : "123456"
+}
+
+###
+
+POST http://localhost:5000/api/auth/login
+Content-Type: application/json
+
+{
+    "email" : "mani@abc.com",
+    "password" : "123456"
+}
+
+###
+GET https://young-everglades-08176.herokuapp.com/api/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZDcyMDU1NzItNWM2Ni00NTg3LThiYTUtM2ZhMTM3NzFmNmRkIiwidXNlcl9uYW1lIjoiTWFuaXJ1eiIsInVzZXJfZW1haWwiOiJtYW5pQGFiYy5jb20iLCJpYXQiOjE2Mjc0NjI2ODcsImV4cCI6MTYyNzQ2NDY4N30.p_xwJ0WglWyPAXZSAMV2hWeNgsUNQ9wYIV1C85xjw_U

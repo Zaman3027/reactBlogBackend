@@ -21,7 +21,7 @@ authRouter.post('/login', async (req, res) => {
             } else {
                 let tokens = jwtTokens(user);
                 res.cookie('refresh_token', tokens.refreshToken, { httpOnly: true });
-                res.json(tokens);
+                res.json({ success: true, token: tokens });
             }
         } else {
             return res.status(401).json({ message: "Email is Incorrect" });
