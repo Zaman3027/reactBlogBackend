@@ -6,6 +6,7 @@ import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 import userRouter from './routes/userRoutes.js';
 import authRouter from './routes/authRoutes.js';
+import postRouter from './routes/postRoutes.js';
 
 dotenv.config();
 
@@ -21,7 +22,7 @@ app.use('/', express.static(join(__dirname, 'public')));
 
 app.use('/api/users', userRouter);
 app.use('/api/auth', authRouter);
-
+app.use('/api/post', postRouter);
 app.listen(PORT, () => {
     console.log(`App is running on ${PORT}`);
 })
