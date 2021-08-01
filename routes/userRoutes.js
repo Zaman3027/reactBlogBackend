@@ -8,27 +8,33 @@ const userRouter = express.Router();
 
 userRouter.get('/', authenticateToken, async (req, res) => {
     try {
-        //const { user_id, user_name, user_email} = req.user;
-        console.log(req.user);
-        if (req.user) {
-            const user = await pool.query('select * from users');
-            res.json({ success: true, users: user.rows });
-        }
+        res.status(200).json(req.user);
 
     } catch (error) {
         console.log(error.message);
-        //res.status(500).json({ success: false, message: error.message });
     }
 });
 
 userRouter.post('/', async (req, res) => {
     const { name, email, password } = req.body;
-    console.log({ name, email, password });
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
         const query = await pool.query('INSERT INTO users (user_name,user_email,user_password) VALUES ($1,$2,$3) RETURNING *',
             [name, email, hashedPassword]);
         res.json({ success: true, users: query.rows });
+    } catch (error) {
+        console.log(error.message);
+        res.sendStatus(500);
+    }
+})
+
+userRouter.get('/:id', authenticateToken, async (req, res) => {
+    try {
+        let userId = req.params.id;
+        const query = await pool.query('SELECT * FROM users where user_id = $1',
+            [userId]);
+        const { user_id, user_name, user_email } = query.rows[0];
+        res.json({ user_id, user_name, user_email });
     } catch (error) {
         console.log(error.message);
         res.sendStatus(500);

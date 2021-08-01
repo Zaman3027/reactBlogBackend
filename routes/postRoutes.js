@@ -22,7 +22,7 @@ postRouter.post("/", authenticateToken, async (req, res) => {
 
 postRouter.get("/", authenticateToken, async (req, res) => {
     try {
-        const query = await pool.query("Select postId,context,content,postedon,U.user_name,U.user_id from users as U ,post where post.user_id = U.user_id");
+        const query = await pool.query("Select postId,context,content,postedon,U.user_name,U.user_id from users as U ,post where post.user_id = U.user_id ORDER BY postedon Desc");
         res.json({ success: true, playload: query.rows });
     } catch (error) {
         console.log(error.message);
@@ -42,6 +42,34 @@ postRouter.get("/:id", authenticateToken, async (req, res) => {
         res.json({ success: true, playload: query.rows[0] });
     } catch (error) {
         console.log(error.message);
+        res.status(500).json({ message: error.message });
+    }
+})
+
+postRouter.get("/user/:id", authenticateToken, async (req, res) => {
+    try {
+        let userId = req.params.id;
+        const query = await pool.query(
+            " Select postId,context,content,postedon,U.user_name,U.user_id from users as U ,post where post.user_id = $1 and post.user_id = U.user_id;",
+            [userId]
+        );
+        res.json({ success: true, playload: query.rows });
+    } catch (error) {
+        console.log({line:60, ere: error.message});
+        res.status(500).json({ message: error.message });
+    }
+})
+
+postRouter.delete("/:id", authenticateToken, async (req, res) => {
+    try {
+        let postId = req.params.id;
+        const query = await pool.query(
+            " Delete from post where post.postId=$1",
+            [postId]
+        );
+        res.status(200).json(query.rows);
+    } catch (error) {
+        console.log({line:60, ere: error.message});
         res.status(500).json({ message: error.message });
     }
 })
