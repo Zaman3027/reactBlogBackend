@@ -14,6 +14,7 @@ authRouter.post('/login', async (req, res) => {
         const query = await pool.query('Select * from users where user_email = $1', [email]);
         if (query.rows.length > 0) {
             let user = query.rows[0];
+            const {user_email,user_name,user_id} = user;
             console.log(user);
             let isMatch = await bcrypt.compare(password, user.user_password);
             if (!isMatch) {
@@ -21,7 +22,7 @@ authRouter.post('/login', async (req, res) => {
             } else {
                 let tokens = jwtTokens(user);
                 res.cookie('refresh_token', tokens.refreshToken, { httpOnly: true });
-                res.json({ success: true, token: tokens });
+                res.json({ success: true, token: tokens, user : {user_id,user_name,user_email}});
             }
         } else {
             return res.status(401).json({ message: "Email is Incorrect" });

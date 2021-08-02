@@ -17,6 +17,22 @@ CREATE TABLE post (
   postedOn DATE NOT NULL DEFAULT CURRENT_DATE
 );
 
+CREATE TABLE likesCount (
+  user_id integer references users(user_id) on delete cascade,
+  postId integer references post(postId) on delete cascade,
+  likecount integer DEFAULT 0,
+  PRIMARY KEY (user_id, postId),
+  postedOn DATE NOT NULL DEFAULT CURRENT_DATE
+);
+
+CREATE TABLE comment (
+  user_id integer references users(user_id) on delete cascade,
+  postId integer references post(postId) on delete cascade,
+  comment TEXT not null,
+  PRIMARY KEY (user_id, postId),
+  postedOn DATE NOT NULL DEFAULT CURRENT_DATE
+);
+
 SELECT * FROM users;
 
 INSERT INTO users (user_name,user_email,user_password) VALUES ('Bob','bob@email.com','bob');

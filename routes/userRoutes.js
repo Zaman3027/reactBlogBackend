@@ -51,7 +51,7 @@ userRouter.delete('/', async (req, res) => {
         console.log(error.message);
         res.sendStatus(500);
     }
-})
+});
 
 
 export default userRouter;
