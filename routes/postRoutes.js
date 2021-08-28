@@ -63,6 +63,8 @@ postRouter.get("/user/:id", authenticateToken, async (req, res) => {
 postRouter.delete("/:id", authenticateToken, async (req, res) => {
     try {
         let postId = req.params.id;
+        if (req.user_id === req.body.user_id)
+            return res.status(401).json({ message: "You are not valid user" });
         const query = await pool.query(
             " Delete from post where post.postId=$1",
             [postId]

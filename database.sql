@@ -9,14 +9,6 @@ CREATE TABLE users(
   user_password TEXT NOT NULL
 );
 
-CREATE TABLE post (
-  postId integer NOT NULL DEFAULT nextval('tablename_colname_seq') PRIMARY KEY,
-  user_id integer references users(user_id) on delete cascade,
-  context JSON not null,
-  content JSON not null,
-  postedOn DATE NOT NULL DEFAULT CURRENT_DATE
-);
-
 CREATE TABLE likesCount (
   user_id integer references users(user_id) on delete cascade,
   postId integer references post(postId) on delete cascade,
